@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>File Organizer</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f7f5;color:#1a1a1a;min-height:100vh}
+  header{background:#fff;border-bottom:1px solid #e5e5e3;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+  header h1{font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
+  header a{font-size:.85rem;color:#555;text-decoration:none;border:1px solid #ddd;padding:.35rem .8rem;border-radius:6px}
+  header a:hover{background:#f0f0ee}
+  .hero{text-align:center;padding:3rem 1rem 2rem}
+  .hero h2{font-size:2rem;font-weight:700;margin-bottom:.75rem}
+  .hero p{color:#555;font-size:1.05rem;max-width:500px;margin:0 auto 1.5rem}
+  .hero .btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+  .btn{padding:.65rem 1.4rem;border-radius:8px;font-size:.95rem;font-weight:500;cursor:pointer;border:none;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:opacity .15s,transform .1s}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:#1a1a1a;color:#fff}
+  .btn-primary:hover{opacity:.85}
+  .btn-outline{background:#fff;color:#1a1a1a;border:1px solid #ccc}
+  .btn-outline:hover{background:#f0f0ee}
+  .app{max-width:900px;margin:0 auto;padding:0 1rem 3rem}
+  .panel{background:#fff;border:1px solid #e5e5e3;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+  .panel h3{font-size:.95rem;font-weight:600;margin-bottom:1rem;color:#333}
+  .drop-zone{border:2px dashed #d0d0ce;border-radius:10px;padding:2.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;color:#888}
+  .drop-zone:hover,.drop-zone.drag{border-color:#1a1a1a;background:#fafaf8}
+  .drop-zone input{display:none}
+  .drop-zone p{font-size:.9rem;margin-top:.5rem}
+  .cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem}
+  .cat-chip{display:flex;align-items:center;gap:.4rem;padding:.5rem .75rem;border:1px solid #e0e0de;border-radius:8px;cursor:pointer;font-size:.85rem;user-select:none;transition:border-color .15s,background .15s}
+  .cat-chip.on{border-color:#1a1a1a;background:#f5f5f3}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .opts{display:flex;flex-wrap:wrap;gap:1rem}
+  .tog-row{display:flex;align-items:center;gap:.5rem;font-size:.9rem;cursor:pointer}
+  .tog{width:34px;height:19px;background:#ccc;border-radius:10px;position:relative;transition:background .2s;flex-shrink:0}
+  .tog.on{background:#1a1a1a}
+  .tog::after{content:'';position:absolute;width:13px;height:13px;background:#fff;border-radius:50%;top:3px;left:3px;transition:left .2s}
+  .tog.on::after{left:18px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem}
+  .stat{background:#f5f5f3;border-radius:8px;padding:1rem;text-align:center}
+  .stat-n{font-size:1.8rem;font-weight:700}
+  .stat-l{font-size:.8rem;color:#888;margin-top:.2rem}
+  .log-box{background:#1e1e1e;border-radius:8px;padding:1rem;height:220px;overflow-y:auto;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.8}
+  .lok{color:#4ec9b0}.lsk{color:#f48771}.li{color:#9cdcfe}
+  .prog{height:3px;background:#e5e5e3;border-radius:2px;overflow:hidden;margin-top:.75rem;display:none}
+  .pf{height:100%;background:#1a1a1a;width:0%;transition:width .15s}
+  .file-list{max-height:120px;overflow-y:auto;margin-top:.75rem}
+  .file-item{display:flex;align-items:center;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid #f0f0ee;font-size:.85rem}
+  .file-item:last-child{border:none}
+  .badge{font-size:.72rem;padding:.2rem .55rem;border-radius:20px;font-weight:500}
+  .run-btn{width:100%;padding:.85rem;background:#1a1a1a;color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:opacity .15s}
+  .run-btn:hover{opacity:.85}
+  .run-btn:disabled{opacity:.4;cursor:not-allowed}
+  footer{text-align:center;padding:2rem;font-size:.83rem;color:#aaa;border-top:1px solid #e5e5e3}
+  footer a{color:#888;text-decoration:none}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗂️ File Organizer</h1>
+  <a href="https://github.com/YOUR_USERNAME/file-organizer" target="_blank">⭐ GitHub</a>
+</header>
+
+<div class="hero">
+  <h2>Organize your files instantly</h2>
+  <p>Drop any files in, pick your categories, and watch them sort themselves — no installation needed.</p>
+  <div class="btns">
+    <a href="https://YOUR_USERNAME-file-organizer.streamlit.app" class="btn btn-primary" target="_blank">🚀 Try Live App</a>
+    <a href="https://github.com/YOUR_USERNAME/file-organizer" class="btn btn-outline" target="_blank">📦 View Source</a>
+  </div>
+</div>
+
+<div class="app">
+
+  <div class="panel">
+    <h3>📁 Drop files to organize</h3>
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()"
+         ondragover="event.preventDefault();this.classList.add('drag')"
+         ondragleave="this.classList.remove('drag')"
+         ondrop="handleDrop(event)">
+      <div style="font-size:2rem">📂</div>
+      <strong>Click or drag files here</strong>
+      <p>Any file type — images, docs, videos, code, archives…</p>
+      <input type="file" id="fileInput" multiple onchange="handleFiles(this.files)"/>
+    </div>
+    <div class="file-list" id="fileList"></div>
+    <div class="prog" id="prog"><div class="pf" id="pf"></div></div>
+  </div>
+
+  <div class="panel">
+    <h3>📂 Categories</h3>
+    <div class="cats" id="cats"></div>
+  </div>
+
+  <div class="panel">
+    <h3>⚙️ Options</h3>
+    <div class="opts">
+      <label class="tog-row" onclick="this.querySelector('.tog').classList.toggle('on')">
+        <div class="tog on"></div> Skip duplicates
+      </label>
+      <label class="tog-row" onclick="this.querySelector('.tog').classList.toggle('on')">
+        <div class="tog on"></div> Preview before organizing
+      </label>
+      <label class="tog-row" onclick="this.querySelector('.tog').classList.toggle('on')">
+        <div class="tog"></div> Auto-rename conflicts
+      </label>
+    </div>
+  </div>
+
+  <button class="run-btn" id="runBtn" onclick="run()" disabled>▶ Organize Files</button>
+
+  <div class="panel" id="resultsPanel" style="display:none;margin-top:1rem">
+    <h3>📊 Results</h3>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="sTotal">0</div><div class="stat-l">Files found</div></div>
+      <div class="stat"><div class="stat-n" id="sMoved">0</div><div class="stat-l">Organized</div></div>
+      <div class="stat"><div class="stat-n" id="sSkip">0</div><div class="stat-l">Skipped</div></div>
+    </div>
+    <div class="log-box" id="logBox"></div>
+  </div>
+
+</div>
+
+<footer>
+  Built with Python · <a href="https://github.com/YOUR_USERNAME/file-organizer">Open source on GitHub</a>
+</footer>
+
+<script>
+const CATS=[
+  {id:'Images',    dot:'#1D9E75', exts:['jpg','jpeg','png','gif','bmp','svg','webp','ico','tiff','heic']},
+  {id:'Documents', dot:'#185FA5', exts:['pdf','doc','docx','xls','xlsx','ppt','pptx','txt','rtf','csv','md','odt']},
+  {id:'Videos',    dot:'#D85A30', exts:['mp4','mkv','avi','mov','wmv','flv','webm','m4v']},
+  {id:'Audio',     dot:'#854F0B', exts:['mp3','wav','aac','flac','ogg','wma','m4a']},
+  {id:'Archives',  dot:'#BA7517', exts:['zip','tar','gz','rar','7z','bz2','tgz']},
+  {id:'Code',      dot:'#534AB7', exts:['py','js','ts','html','css','java','cpp','c','sh','json','xml','go','rs']},
+  {id:'Executables',dot:'#A32D2D',exts:['exe','msi','dmg','apk','deb','rpm']},
+  {id:'Fonts',     dot:'#5F5E5A', exts:['ttf','otf','woff','woff2']},
+];
+const BADGE_COLORS={
+  Images:'#e1f5ee',Documents:'#e6f1fb',Videos:'#faece7',Audio:'#faeeda',
+  Archives:'#faeeda',Code:'#eeedfe',Executables:'#fcebeb',Fonts:'#f1efe8',Others:'#f1efe8'
+};
+const BADGE_TEXT={
+  Images:'#085041',Documents:'#0C447C',Videos:'#712B13',Audio:'#633806',
+  Archives:'#633806',Code:'#3C3489',Executables:'#791F1F',Fonts:'#444441',Others:'#444441'
+};
+
+let active=new Set(CATS.map(c=>c.id));
+let files=[];
+
+function buildCats(){
+  const g=document.getElementById('cats');
+  CATS.forEach(c=>{
+    const d=document.createElement('div');
+    d.className='cat-chip on';d.id='chip-'+c.id;
+    d.innerHTML=`<span class="dot" style="background:${c.dot}"></span>${c.id}`;
+    d.onclick=()=>{
+      if(active.has(c.id)){active.delete(c.id);d.classList.remove('on')}
+      else{active.add(c.id);d.classList.add('on')}
+    };
+    g.appendChild(d);
+  });
+}
+
+function getCat(name){
+  const e=name.split('.').pop().toLowerCase();
+  for(const c of CATS) if(c.exts.includes(e)) return c.id;
+  return 'Others';
+}
+
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('drag');
+  handleFiles(e.dataTransfer.files);
+}
+
+function handleFiles(fl){
+  files=[...fl];
+  const list=document.getElementById('fileList');
+  list.innerHTML='';
+  files.forEach(f=>{
+    const cat=getCat(f.name);
+    const bg=BADGE_COLORS[cat]||'#f1efe8';
+    const tc=BADGE_TEXT[cat]||'#444';
+    const d=document.createElement('div');
+    d.className='file-item';
+    d.innerHTML=`<span>${f.name}</span><span class="badge" style="background:${bg};color:${tc}">${cat}</span>`;
+    list.appendChild(d);
+  });
+  document.getElementById('runBtn').disabled=files.length===0;
+}
+
+function log(msg,cls){
+  const b=document.getElementById('logBox');
+  const d=document.createElement('div');
+  d.className=cls;d.textContent=msg;
+  b.appendChild(d);b.scrollTop=b.scrollHeight;
+}
+
+function animProg(cb){
+  const prog=document.getElementById('prog'),pf=document.getElementById('pf');
+  prog.style.display='block';let p=0;
+  const iv=setInterval(()=>{p+=4;pf.style.width=Math.min(p,98)+'%';
+    if(p>=100){clearInterval(iv);pf.style.width='100%';setTimeout(()=>{prog.style.display='none';pf.style.width='0%';cb()},150)}},25);
+}
+
+function run(){
+  if(!files.length) return;
+  document.getElementById('resultsPanel').style.display='block';
+  document.getElementById('logBox').innerHTML='';
+  document.getElementById('runBtn').disabled=true;
+  let moved=0,skipped=0;
+  const ts=()=>new Date().toTimeString().slice(0,8);
+  log(`[${ts()}]  Organizing ${files.length} files…`,'li');
+  animProg(()=>{
+    files.forEach(f=>{
+      const cat=getCat(f.name);
+      if(!active.has(cat)){
+        skipped++;
+        log(`[${ts()}]  SKIP  (category off)  ${f.name}`,'lsk');
+      } else {
+        moved++;
+        log(`[${ts()}]  MOVE  ${f.name}  →  ${cat}/`,'lok');
+      }
+    });
+    log(`[${ts()}]  Done. ${moved} organized, ${skipped} skipped.`,'lok');
+    document.getElementById('sTotal').textContent=files.length;
+    document.getElementById('sMoved').textContent=moved;
+    document.getElementById('sSkip').textContent=skipped;
+    document.getElementById('runBtn').disabled=false;
+  });
+}
+
+buildCats();
+</script>
+</body>
+</html>
