@@ -9,6 +9,7 @@ Automatically organizes files in a directory into category subfolders — Images
 ## 🚀 Live Demos
 
 GitHub Pages :- https://srilehkakada-dot.github.io/file-organizer/
+
 Streamlit App :- https://file-organizer-ud2qqx9hjbbnkfkgvkrkbn.streamlit.app/
 
 ---
