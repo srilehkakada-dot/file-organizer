@@ -10,8 +10,8 @@ Automatically organizes files in a directory into category subfolders — Images
 
 | Demo | Link |
 |---|---|
-| 🌐 GitHub Pages | `https://YOUR_USERNAME.github.io/file-organizer` |
-| ⚡ Streamlit App | `https://YOUR_USERNAME-file-organizer.streamlit.app` |
+| 🌐 GitHub Pages | ` https://srilehkakada-dot.github.io/file-organizer/` |
+| ⚡ Streamlit App | `https://file-organizer-ud2qqx9hjbbnkfkgvkrkbn.streamlit.app/` |
 
 ---
 
